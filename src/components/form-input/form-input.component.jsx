@@ -1,11 +1,20 @@
-import React from "react";
+import "./form-input.styles.scss";
 
 const FormInput = ({ label, ...remainingProps }) => {
   //   console.log(remainingProps);
   return (
-    <div>
-      <label htmlFor="">{label}</label>
-      <input {...remainingProps} />
+    <div className="group">
+      <input className="form-input" {...remainingProps} />
+      {label && (
+        <label
+          htmlFor=""
+          className={`${
+            remainingProps.value.length ? "shrink" : ""
+          } form-input-label`}
+        >
+          {label}
+        </label>
+      )}
     </div>
   );
 };
