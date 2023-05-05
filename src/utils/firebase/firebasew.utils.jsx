@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -67,6 +68,18 @@ export const signUpUserWithEmailAndPassword = async (email, password) => {
   if (!email && !password) return;
   try {
     return await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    if (error.code === "auth/email-already-in-use") {
+      alert("Its Existed email");
+      return;
+    }
+    console.log("Signupmethod Error what is ==================>", error);
+  }
+};
+export const signInUserWithEmailAndPassword = async (email, password) => {
+  if (!email && !password) return;
+  try {
+    return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     if (error.code === "auth/email-already-in-use") {
       alert("Its Existed email");
