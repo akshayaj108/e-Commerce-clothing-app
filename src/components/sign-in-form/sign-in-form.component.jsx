@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./sign-in-form.styles.scss";
 import {
   signInUserWithEmailAndPassword,
-  signInWithGoogle,
+  signInWithGooglePopup,
+  createUserDocs,
 } from "../../utils/firebase/firebasew.utils";
 import FormInput from "../form-input/form-input.component";
 //imported Custom Button Component
 import Button from "../button/button.component";
+//app context imported
+import { UserContext } from "../../contexts/user.contexts";
 //default empty from data
 const defaultData = {
   email: "",
@@ -16,11 +19,16 @@ const defaultData = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultData);
   const { email, password } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
   //Handle change for handle input onchange value
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name);
     setFormFields({ ...formFields, [name]: value });
+  };
+  const signInWithGoogle = async () => {
+    const { user } = await signInWithGooglePopup();
+    await createUserDocs(user);
   };
   //function for clearing form data
   const clearFieldData = () => {
@@ -29,11 +37,14 @@ const SignInForm = () => {
   // for submit function to submit data
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await signInUserWithEmailAndPassword(email, password);
-    response && alert("Successfully Logged In");
+
     try {
+      const { user } = await signInUserWithEmailAndPassword(email, password);
+      user && alert("Successfully Logged In");
+      setCurrentUser(user);
       clearFieldData();
     } catch (error) {
+      //switch  case method for performace
       switch (error.code) {
         case "auth/wrong-password":
           alert("Incoorect Password");
@@ -52,7 +63,7 @@ const SignInForm = () => {
     <div className="sign-in-container">
       <h2>Already have an account</h2>
       <span>Sign In with Email</span>
-      <form action="" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <FormInput
           label="Email"
           type="email"

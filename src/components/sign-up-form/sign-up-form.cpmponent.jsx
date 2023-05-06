@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./sign-up-form.styles.scss";
 
 import {
@@ -8,6 +8,9 @@ import {
 import FormInput from "../form-input/form-input.component";
 //imported Custom Button Component
 import Button from "../button/button.component";
+//imported global contexts
+import { UserContext } from "../../contexts/user.contexts";
+
 //default empty from data
 const defaultData = {
   displayName: "",
@@ -19,6 +22,7 @@ const defaultData = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultData);
   const { displayName, email, password, confirmPassword } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
   //Handle change for handle input onchange value
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,6 +36,7 @@ const SignUpForm = () => {
   // for submit function to submit data
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("handleSubmit get called");
     if (password !== confirmPassword) {
       alert("Password Not same");
       return;
@@ -39,7 +44,7 @@ const SignUpForm = () => {
     try {
       console.log(email, ": ", password);
       const { user } = await signUpUserWithEmailAndPassword(email, password);
-
+      setCurrentUser(user);
       await createUserDocs(user, { displayName });
       clearFieldData();
     } catch (error) {
@@ -86,6 +91,7 @@ const SignUpForm = () => {
           onChange={handleChange}
           value={confirmPassword}
         />
+
         <Button type="submit">SignUp</Button>
       </form>
     </div>

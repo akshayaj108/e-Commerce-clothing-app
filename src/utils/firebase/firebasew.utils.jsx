@@ -6,6 +6,7 @@ import {
   signInWithRedirect,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,7 +32,8 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 //signIn with popup
-export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 //signIn redirect google
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
@@ -69,22 +71,39 @@ export const signUpUserWithEmailAndPassword = async (email, password) => {
   try {
     return await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
-    if (error.code === "auth/email-already-in-use") {
-      alert("Its Existed email");
-      return;
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        alert("This Email user is already exist");
+        break;
+      case "auth/weak-password":
+        alert(
+          "Password is too weak, Password should be at least 6 characters "
+        );
+        break;
+      default:
+        console.log(error);
+        break;
     }
-    console.log("Signupmethod Error what is ==================>", error);
   }
 };
 export const signInUserWithEmailAndPassword = async (email, password) => {
   if (!email && !password) return;
+
   try {
     return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
-    if (error.code === "auth/email-already-in-use") {
-      alert("Its Existed email");
-      return;
+    //switch  case method for performace
+    switch (error.code) {
+      case "auth/wrong-password":
+        alert("Incoorect Password");
+        break;
+      case "auth/user-not-found":
+        alert("No User Associated with this Email");
+        break;
+      default:
+        console.log(error);
+        break;
     }
-    console.log("Signupmethod Error what is ==================>", error);
   }
 };
+export const signOutuser = async () => await signOut(auth);
