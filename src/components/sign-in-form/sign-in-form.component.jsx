@@ -1,15 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./sign-in-form.styles.scss";
 import {
   signInUserWithEmailAndPassword,
   signInWithGooglePopup,
-  createUserDocs,
 } from "../../utils/firebase/firebasew.utils";
 import FormInput from "../form-input/form-input.component";
 //imported Custom Button Component
 import Button from "../button/button.component";
 //app context imported
-import { UserContext } from "../../contexts/user.contexts";
+
 //default empty from data
 const defaultData = {
   email: "",
@@ -19,7 +18,7 @@ const defaultData = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultData);
   const { email, password } = formFields;
-  const { setCurrentUser } = useContext(UserContext);
+
   //Handle change for handle input onchange value
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,8 +26,10 @@ const SignInForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocs(user);
+    const response = await signInWithGooglePopup();
+    response
+      ? alert("Successfully Login with Google")
+      : alert("Something went wrong");
   };
   //function for clearing form data
   const clearFieldData = () => {
@@ -41,21 +42,10 @@ const SignInForm = () => {
     try {
       const { user } = await signInUserWithEmailAndPassword(email, password);
       user && alert("Successfully Logged In");
-      setCurrentUser(user);
+
       clearFieldData();
     } catch (error) {
-      //switch  case method for performace
-      switch (error.code) {
-        case "auth/wrong-password":
-          alert("Incoorect Password");
-          break;
-        case "auth/user-not-found":
-          alert("No User Associated with this Email");
-          break;
-        default:
-          console.log(error);
-          break;
-      }
+      console.log(error);
     }
   };
 

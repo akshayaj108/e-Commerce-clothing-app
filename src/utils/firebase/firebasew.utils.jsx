@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -34,6 +35,7 @@ export const auth = getAuth();
 //signIn with popup
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
+
 //signIn redirect google
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
@@ -42,7 +44,6 @@ export const db = getFirestore();
 export const createUserDocs = async (userAuthRes, displayNameOfObject) => {
   const userDocRef = doc(db, "users", userAuthRes.uid);
 
-  console.log(userDocRef);
   const userDocSnapshot = await getDoc(userDocRef);
   console.log(userDocSnapshot.exists());
 
@@ -107,3 +108,6 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
   }
 };
 export const signOutuser = async () => await signOut(auth);
+
+export const onAuth_stateChangedListner = (callback) =>
+  onAuthStateChanged(auth, callback);
