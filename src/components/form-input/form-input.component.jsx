@@ -1,21 +1,16 @@
-import "./form-input.styles.scss";
+import { FormInputLabel, Input, Group } from "./form-input.styles.jsx";
 
 const FormInput = ({ label, ...remainingProps }) => {
   //   console.log(remainingProps);
   return (
-    <div className="group">
-      <input className="form-input" {...remainingProps} />
+    <Group>
+      <Input {...remainingProps} />
       {label && (
-        <label
-          htmlFor=""
-          className={`${
-            remainingProps.value.length ? "shrink" : ""
-          } form-input-label`}
-        >
+        <FormInputLabel shrink={remainingProps.value.length}>
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </Group>
   );
 };
 

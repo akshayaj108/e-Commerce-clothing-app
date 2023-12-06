@@ -1,15 +1,14 @@
 import { useState } from "react";
-import "./sign-up-form.styles.scss";
+//custom reusable input component as FormInput Component and Button Component
+import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 import {
   signUpUserWithEmailAndPassword,
   createUserDocs,
 } from "../../utils/firebase/firebasew.utils";
-import FormInput from "../form-input/form-input.component";
-//imported Custom Button Component
-import Button from "../button/button.component";
-//imported global contexts
-// import { UserContext } from "../../contexts/user.contexts";
+
+import { SignUpContainer } from "./sign-up-form.styles.jsx";
 
 //default empty from data
 const defaultData = {
@@ -52,7 +51,7 @@ const SignUpForm = () => {
     }
   };
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have a account</h2>
       <span>Sign Up with Email</span>
       <form action="" onSubmit={handleSubmit}>
@@ -94,7 +93,7 @@ const SignUpForm = () => {
 
         <Button type="submit">SignUp</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

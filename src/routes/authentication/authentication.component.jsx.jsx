@@ -6,9 +6,10 @@
 //   signInWithGoogleRedirect,
 //   createUserDocs,
 // } from "../../utils/firebase/firebasew.utils";
-import "./authentication.styles.scss";
+import "./authentication.styles.jsx";
 import SignInForm from "../../components/sign-in-form/sign-in-form.component";
 import SignUpForm from "../../components/sign-up-form/sign-up-form.cpmponent";
+import { AuthenticationContainer } from "./authentication.styles.jsx";
 
 const Auth = () => {
   // useEffect(
@@ -28,14 +29,14 @@ const Auth = () => {
   // };
 
   return (
-    <div className="authentication-container">
+    <AuthenticationContainer>
       {/* <button onClick={logUserWithGoogle}>SignIn with Google</button>
       <button onClick={signInWithGoogleRedirect}>
         SignIn with Google redirect
       </button> */}
       <SignInForm />
       <SignUpForm />
-    </div>
+    </AuthenticationContainer>
   );
 };
 

@@ -19,7 +19,7 @@ export const CategoriesProvider = ({ children }) => {
     };
     getCategoriesMap();
   }, []);
-  console.log("getting categoriesMap from context--", categoriesMap);
+  // console.log("getting categoriesMap from context--", categoriesMap);
   const value = { categoriesMap };
   return (
     <CategoriesContext.Provider value={value}>
