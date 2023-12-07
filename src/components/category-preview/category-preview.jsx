@@ -9,7 +9,7 @@ import {
 const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>
-      <h2>
+      <h2 style={{ textAlign: "center" }}>
         <Title to={title}>{title.toUpperCase()}</Title>
       </h2>
       <Preview>

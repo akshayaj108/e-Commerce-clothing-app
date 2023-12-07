@@ -19,10 +19,10 @@ const ProductCard = ({ product }) => {
       <img src={imageUrl} alt="" />
       <Footer>
         <Name>{name}</Name>
-        <Price>{price}</Price>
+        <Price>RS{price}</Price>
       </Footer>
       <Button
-        buttonTypeFromProps={BUTTON_TYPE_CLASSES.inverted}
+        otherprops={BUTTON_TYPE_CLASSES.inverted}
         onClick={addProductToCart}
       >
         Add to Card

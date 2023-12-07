@@ -8,7 +8,7 @@ import { CategoryContainer } from "./category.styles.jsx";
 
 const Category = () => {
   const { category } = useParams();
-  console.log("Getting params value", category);
+  // console.log("Getting params value", category);
   //useParams() gives value as an object
   const [products, setProducts] = useState([]);
   const { categoriesMap } = useContext(CategoriesContext);
@@ -18,7 +18,7 @@ const Category = () => {
 
   return (
     <>
-      <h2>{category.toUpperCase()}</h2>
+      <h2 style={{ textAlign: "center" }}>{category.toUpperCase()}</h2>
       <CategoryContainer>
         {products &&
           products.map((product) => (
